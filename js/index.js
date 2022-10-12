@@ -47,6 +47,28 @@ function removeProduct(event) {
 
 function createProduct() {
   //... your code goes here
+  const productName = document.querySelector('.create-product [type="text"]').value;
+  console.log(productName);
+  const productPrice = document.querySelector('.create-product [type="number"]').value;
+  console.log(productPrice);
+  let table = document.getElementById('cart').children[1];
+
+  table.innerHTML += (`<tr class="product">
+  <td class="name">
+    <span>${productName}</span>
+  </td>
+  <td class="price">$<span>${productPrice}</span></td>
+  <td class="quantity">
+    <input type="number" value="0" min="0" placeholder="Quantity" />
+  </td>
+  <td class="subtotal">$<span>0</span></td>
+  <td class="action">
+    <button class="btn btn-remove">Remove</button>
+  </td>
+</tr>`);
+document.querySelectorAll('.btn btn-remove').forEach((button) => {
+  button.addEventListener('click', removeProduct);
+})
 }
 
 window.addEventListener('load', () => {
@@ -58,4 +80,6 @@ window.addEventListener('load', () => {
   for (let buttons of removeBtns) {
     buttons.addEventListener('click',removeProduct);
   }
+  const createBtn = document.getElementById('create');
+  createBtn.addEventListener('click', createProduct);
   });
