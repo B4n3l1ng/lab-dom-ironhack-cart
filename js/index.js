@@ -38,6 +38,9 @@ function removeProduct(event) {
   const target = event.currentTarget;
   console.log('The target in remove is:', target);
   //... your code goes here
+  const targetProduct = target.parentNode.parentNode;
+  targetProduct.querySelector('.quantity input').value =0;
+  calculateAll();
 }
 
 // ITERATION 5
@@ -51,4 +54,8 @@ window.addEventListener('load', () => {
   calculatePricesBtn.addEventListener('click', calculateAll);
 
   //... your code goes here
-});
+  const removeBtns = document.getElementsByClassName('btn-remove');
+  for (let buttons of removeBtns) {
+    buttons.addEventListener('click',removeProduct);
+  }
+  });
