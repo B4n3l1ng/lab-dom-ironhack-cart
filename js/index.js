@@ -39,7 +39,7 @@ function removeProduct(event) {
   console.log('The target in remove is:', target);
   //... your code goes here
   const targetProduct = target.parentNode.parentNode;
-  targetProduct.querySelector('.quantity input').value =0;
+  targetProduct.querySelector('.quantity input').value = 0;
   calculateAll();
 }
 
@@ -66,9 +66,6 @@ function createProduct() {
     <button class="btn btn-remove">Remove</button>
   </td>
 </tr>`);
-document.querySelectorAll('.btn btn-remove').forEach((button) => {
-  button.addEventListener('click', removeProduct);
-})
 }
 
 window.addEventListener('load', () => {
