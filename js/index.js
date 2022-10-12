@@ -20,13 +20,16 @@ function calculateAll() {
 
   // ITERATION 2
   //... your code goes here
+  let total = 0;
   const list = document.getElementsByClassName('product');
   for (product of list){
-    updateSubtotal(product);
+    total += updateSubtotal(product);
   };
-
   // ITERATION 3
   //... your code goes here
+  const totalPlace = document.querySelector('#total-value');
+  totalPlace.innerText = `Total: $${total}`
+
 }
 
 // ITERATION 4
