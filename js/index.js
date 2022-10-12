@@ -66,6 +66,10 @@ function createProduct() {
     <button class="btn btn-remove">Remove</button>
   </td>
 </tr>`);
+const rmvBtns = document.getElementsByClassName('btn btn-remove');
+for (let button of rmvBtns) {
+  button.addEventListener('click',removeProduct);
+}
 }
 
 window.addEventListener('load', () => {
