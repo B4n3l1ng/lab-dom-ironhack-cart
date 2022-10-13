@@ -25,6 +25,7 @@ function calculateAll() {
   for (product of list){
     total += updateSubtotal(product);
   };
+
   // ITERATION 3
   //... your code goes here
   const totalPlace = document.querySelector('#total-value');
@@ -35,52 +36,76 @@ function calculateAll() {
 // ITERATION 4
 
 function removeProduct(event) {
-  const target = event.currentTarget;
-  console.log('The target in remove is:', target);
-  //... your code goes here
-  const targetProduct = target.parentNode.parentNode;
-  targetProduct.querySelector('.quantity input').value = 0;
+  const target = event.currentTarget.parentNode.parentNode; // the event being passed will be the button, this means parentNode of parentNode of the event will be the product we will want to delete
+
+  target.parentNode.removeChild(target); // this function will delete the the target (the product DOM element) from it's parentNode. essentially removing it from the DOM.
+
+  const total = document.querySelector("#total-value span"); // total DOM element
+  const subtotal = target.querySelector(".subtotal span"); // subtotal DOM element
+
   calculateAll();
 }
 
 // ITERATION 5
 
 function createProduct() {
-  //... your code goes here
-  const productName = document.querySelector('.create-product [type="text"]').value;
-  console.log(productName);
-  const productPrice = document.querySelector('.create-product [type="number"]').value;
-  console.log(productPrice);
-  let table = document.getElementById('cart').children[1];
+ // input values from the create product line
+ let nameElement = document.querySelector(
+  '.create-product input[type="text"]'
+);
+let priceElement = document.querySelector(
+  '.create-product input[type="number"]'
+);
 
-  table.innerHTML += (`<tr class="product">
-  <td class="name">
-    <span>${productName}</span>
-  </td>
-  <td class="price">$<span>${productPrice}</span></td>
-  <td class="quantity">
-    <input type="number" value="0" min="0" placeholder="Quantity" />
-  </td>
-  <td class="subtotal">$<span>0</span></td>
-  <td class="action">
-    <button class="btn btn-remove">Remove</button>
-  </td>
-</tr>`);
-const rmvBtns = document.getElementsByClassName('btn btn-remove');
-for (let button of rmvBtns) {
-  button.addEventListener('click',removeProduct);
+let cart = document.querySelector("tbody"); // targets the cart DOM in which the new elements will be added
+
+// We proceed to create the product DOM element via 3 steps (create the element, add a class (optional), add some innerHTML (which can include other HTML tags))
+
+let newProduct = document.createElement("tr"); // to create the new product DOM element that will be added
+newProduct.className = "product"; // to add a new class to the new product DOM element
+
+// We create the nested elements by passing a string that represents HTML elements to innerHTML
+// .innerHTML will cause the string to be parsed and converted to nested elements
+// the values from the input nameElement and priceElement are passed with string interpolation
+newProduct.innerHTML = `
+  <tr class="product">
+    <td class="name">
+      <span>${nameElement.value}</span>
+    </td>
+    <td class="price">$<span>${priceElement.value}</span></td>
+    <td class="quantity">
+      <input type="number" value="0" min="0" placeholder="Quantity" />
+    </td>
+    <td class="subtotal">$<span>0</span></td>
+    <td class="action">
+      <button class="btn btn-remove">Remove</button>
+    </td>
+  </tr>
+`;
+
+cart.appendChild(newProduct); 
+
+nameElement.value = ""; 
+priceElement.value = ""; 
+
+
+var deleteButton = newProduct.querySelector(".btn-remove"); 
+deleteButton.addEventListener("click", removeProduct); 
 }
-}
 
-window.addEventListener('load', () => {
-  const calculatePricesBtn = document.getElementById('calculate');
-  calculatePricesBtn.addEventListener('click', calculateAll);
+window.addEventListener("load", () => {
 
-  //... your code goes here
-  const removeBtns = document.getElementsByClassName('btn-remove');
-  for (let buttons of removeBtns) {
-    buttons.addEventListener('click',removeProduct);
-  }
-  const createBtn = document.getElementById('create');
-  createBtn.addEventListener('click', createProduct);
+  
+  const calculatePricesBtn = document.getElementById("calculate");
+  calculatePricesBtn.addEventListener("click", calculateAll);
+
+  
+  const removeButtons = document.querySelectorAll(".btn-remove");
+  removeButtons.forEach((eachButton) => {
+    eachButton.addEventListener("click", removeProduct);
   });
+
+  
+  const createButton = document.querySelector("#create");
+  createButton.addEventListener("click", createProduct);
+});
